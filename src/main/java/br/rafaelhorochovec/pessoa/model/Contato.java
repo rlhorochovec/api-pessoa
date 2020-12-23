@@ -2,15 +2,14 @@ package br.rafaelhorochovec.pessoa.model;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.SequenceGenerator;
 
 @Entity
 public class Contato {
 
 	@Id
-	@GeneratedValue(generator = "contato_gen")
-	@SequenceGenerator(name = "contato_gen", sequenceName = "contato_seq", initialValue = 1)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
 	private String email;

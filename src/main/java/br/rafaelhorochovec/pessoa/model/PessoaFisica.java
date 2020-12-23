@@ -4,14 +4,14 @@ import javax.persistence.Entity;
 
 @Entity
 public class PessoaFisica extends Pessoa {
-	
+
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
 	private Integer idade;
 	private String cpf;
-	
+
 	public Integer getIdade() {
 		return idade;
 	}
