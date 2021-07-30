@@ -2,6 +2,7 @@ package br.rafaelhorochovec.pessoa.controller;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 
 import javax.validation.Valid;
 
@@ -36,7 +37,7 @@ public class PessoaFisicaController {
 	}
 
 	@GetMapping("/pessoas/{id}")
-	public ResponseEntity<PessoaFisica> getPessoaFisicaById(@PathVariable(value = "id") Long pessoaFisicaId)
+	public ResponseEntity<PessoaFisica> getPessoaFisicaById(@PathVariable(value = "id") UUID pessoaFisicaId)
 			throws ResourceNotFoundException {
 		PessoaFisica pessoaFisica = pessoaFisicaRepository.findById(pessoaFisicaId)
 				.orElseThrow(() -> new ResourceNotFoundException("Não existe pessoa com ID: " + pessoaFisicaId));
@@ -49,7 +50,7 @@ public class PessoaFisicaController {
 	}
 
 	@PutMapping("/pessoas/{id}")
-	public ResponseEntity<PessoaFisica> updatePessoaFisica(@PathVariable(value = "id") Long pessoaFisicaId,
+	public ResponseEntity<PessoaFisica> updatePessoaFisica(@PathVariable(value = "id") UUID pessoaFisicaId,
 			@Valid @RequestBody PessoaFisica pessoaFisicaRequest) throws ResourceNotFoundException {
 		PessoaFisica pessoaFisica = pessoaFisicaRepository.findById(pessoaFisicaId)
 				.orElseThrow(() -> new ResourceNotFoundException("Não existe pessoa com ID: " + pessoaFisicaId));
@@ -69,7 +70,7 @@ public class PessoaFisicaController {
 	}
 
 	@DeleteMapping("/pessoas/{id}")
-	public Map<String, Boolean> deletePessoaFisica(@PathVariable(value = "id") Long pessoaFisicaId) throws ResourceNotFoundException {
+	public Map<String, Boolean> deletePessoaFisica(@PathVariable(value = "id") UUID pessoaFisicaId) throws ResourceNotFoundException {
 		PessoaFisica pessoaFisica = pessoaFisicaRepository.findById(pessoaFisicaId)
 				.orElseThrow(() -> new ResourceNotFoundException("Não existe pessoa com ID: " + pessoaFisicaId));
 

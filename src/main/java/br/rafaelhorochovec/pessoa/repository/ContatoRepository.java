@@ -1,10 +1,12 @@
 package br.rafaelhorochovec.pessoa.repository;
 
+import java.util.UUID;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import br.rafaelhorochovec.pessoa.model.Contato;
 
 @Repository
-public interface ContatoRepository extends JpaRepository<Contato, Long> {
+public interface ContatoRepository extends JpaRepository<Contato, UUID> {
 }

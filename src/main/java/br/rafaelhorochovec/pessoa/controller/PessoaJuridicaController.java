@@ -2,6 +2,7 @@ package br.rafaelhorochovec.pessoa.controller;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 
 import javax.validation.Valid;
 
@@ -36,7 +37,7 @@ public class PessoaJuridicaController {
 	}
 
 	@GetMapping("/empresas/{id}")
-	public ResponseEntity<PessoaJuridica> getPessoaJuridicaById(@PathVariable(value = "id") Long pessoaJuridicaId)
+	public ResponseEntity<PessoaJuridica> getPessoaJuridicaById(@PathVariable(value = "id") UUID pessoaJuridicaId)
 			throws ResourceNotFoundException {
 		PessoaJuridica pessoaJuridica = pessoaJuridicaRepository.findById(pessoaJuridicaId)
 				.orElseThrow(() -> new ResourceNotFoundException("Não existe empresa com ID: " + pessoaJuridicaId));
@@ -49,7 +50,7 @@ public class PessoaJuridicaController {
 	}
 
 	@PutMapping("/empresas/{id}")
-	public ResponseEntity<PessoaJuridica> updatePessoaJuridica(@PathVariable(value = "id") Long pessoaJuridicaId,
+	public ResponseEntity<PessoaJuridica> updatePessoaJuridica(@PathVariable(value = "id") UUID pessoaJuridicaId,
 			@Valid @RequestBody PessoaJuridica pessoaJuridicaRequest) throws ResourceNotFoundException {
 		PessoaJuridica pessoaJuridica = pessoaJuridicaRepository.findById(pessoaJuridicaId)
 				.orElseThrow(() -> new ResourceNotFoundException("Não existe pessoa com ID: " + pessoaJuridicaId));
@@ -69,7 +70,7 @@ public class PessoaJuridicaController {
 	}
 
 	@DeleteMapping("/empresas/{id}")
-	public Map<String, Boolean> deletePessoaJuridica(@PathVariable(value = "id") Long pessoaJuridicaId) throws ResourceNotFoundException {
+	public Map<String, Boolean> deletePessoaJuridica(@PathVariable(value = "id") UUID pessoaJuridicaId) throws ResourceNotFoundException {
 		PessoaJuridica pessoaJuridica = pessoaJuridicaRepository.findById(pessoaJuridicaId)
 				.orElseThrow(() -> new ResourceNotFoundException("Não existe empresa com ID: " + pessoaJuridicaId));
 
