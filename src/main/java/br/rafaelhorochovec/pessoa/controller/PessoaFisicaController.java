@@ -32,12 +32,12 @@ public class PessoaFisicaController {
 	private PessoaFisicaRepository pessoaFisicaRepository;
 
 	@GetMapping("/pessoas")
-	public Page<PessoaFisica> getPessoasFisicas(Pageable pageable) {
+	public Page<PessoaFisica> read(Pageable pageable) {
 		return pessoaFisicaRepository.findAll(pageable);
 	}
 
 	@GetMapping("/pessoas/{id}")
-	public ResponseEntity<PessoaFisica> getPessoaFisicaById(@PathVariable(value = "id") UUID pessoaFisicaId)
+	public ResponseEntity<PessoaFisica> getById(@PathVariable(value = "id") UUID pessoaFisicaId)
 			throws ResourceNotFoundException {
 		PessoaFisica pessoaFisica = pessoaFisicaRepository.findById(pessoaFisicaId)
 				.orElseThrow(() -> new ResourceNotFoundException("Não existe pessoa com ID: " + pessoaFisicaId));
@@ -45,12 +45,12 @@ public class PessoaFisicaController {
 	}
 
 	@PostMapping("/pessoas")
-	public PessoaFisica createPessoaFisica(@Valid @RequestBody PessoaFisica pessoaFisica) {
+	public PessoaFisica create(@Valid @RequestBody PessoaFisica pessoaFisica) {
 		return pessoaFisicaRepository.save(pessoaFisica);
 	}
 
 	@PutMapping("/pessoas/{id}")
-	public ResponseEntity<PessoaFisica> updatePessoaFisica(@PathVariable(value = "id") UUID pessoaFisicaId,
+	public ResponseEntity<PessoaFisica> update(@PathVariable(value = "id") UUID pessoaFisicaId,
 			@Valid @RequestBody PessoaFisica pessoaFisicaRequest) throws ResourceNotFoundException {
 		PessoaFisica pessoaFisica = pessoaFisicaRepository.findById(pessoaFisicaId)
 				.orElseThrow(() -> new ResourceNotFoundException("Não existe pessoa com ID: " + pessoaFisicaId));
@@ -70,7 +70,7 @@ public class PessoaFisicaController {
 	}
 
 	@DeleteMapping("/pessoas/{id}")
-	public Map<String, Boolean> deletePessoaFisica(@PathVariable(value = "id") UUID pessoaFisicaId) throws ResourceNotFoundException {
+	public Map<String, Boolean> delete(@PathVariable(value = "id") UUID pessoaFisicaId) throws ResourceNotFoundException {
 		PessoaFisica pessoaFisica = pessoaFisicaRepository.findById(pessoaFisicaId)
 				.orElseThrow(() -> new ResourceNotFoundException("Não existe pessoa com ID: " + pessoaFisicaId));
 
