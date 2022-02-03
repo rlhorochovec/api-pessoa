@@ -32,12 +32,12 @@ public class PessoaJuridicaController {
 	private PessoaJuridicaRepository pessoaJuridicaRepository;
 
 	@GetMapping("/empresas")
-	public Page<PessoaJuridica> getPessoaJuridicas(Pageable pageable) {
+	public Page<PessoaJuridica> read(Pageable pageable) {
 		return pessoaJuridicaRepository.findAll(pageable);
 	}
 
 	@GetMapping("/empresas/{id}")
-	public ResponseEntity<PessoaJuridica> getPessoaJuridicaById(@PathVariable(value = "id") UUID pessoaJuridicaId)
+	public ResponseEntity<PessoaJuridica> getById(@PathVariable(value = "id") UUID pessoaJuridicaId)
 			throws ResourceNotFoundException {
 		PessoaJuridica pessoaJuridica = pessoaJuridicaRepository.findById(pessoaJuridicaId)
 				.orElseThrow(() -> new ResourceNotFoundException("Não existe empresa com ID: " + pessoaJuridicaId));
@@ -45,12 +45,12 @@ public class PessoaJuridicaController {
 	}
 
 	@PostMapping("/empresas")
-	public PessoaJuridica createPessoaJuridica(@Valid @RequestBody PessoaJuridica pessoaJuridica) {
+	public PessoaJuridica create(@Valid @RequestBody PessoaJuridica pessoaJuridica) {
 		return pessoaJuridicaRepository.save(pessoaJuridica);
 	}
 
 	@PutMapping("/empresas/{id}")
-	public ResponseEntity<PessoaJuridica> updatePessoaJuridica(@PathVariable(value = "id") UUID pessoaJuridicaId,
+	public ResponseEntity<PessoaJuridica> update(@PathVariable(value = "id") UUID pessoaJuridicaId,
 			@Valid @RequestBody PessoaJuridica pessoaJuridicaRequest) throws ResourceNotFoundException {
 		PessoaJuridica pessoaJuridica = pessoaJuridicaRepository.findById(pessoaJuridicaId)
 				.orElseThrow(() -> new ResourceNotFoundException("Não existe pessoa com ID: " + pessoaJuridicaId));
@@ -70,7 +70,7 @@ public class PessoaJuridicaController {
 	}
 
 	@DeleteMapping("/empresas/{id}")
-	public Map<String, Boolean> deletePessoaJuridica(@PathVariable(value = "id") UUID pessoaJuridicaId) throws ResourceNotFoundException {
+	public Map<String, Boolean> delete(@PathVariable(value = "id") UUID pessoaJuridicaId) throws ResourceNotFoundException {
 		PessoaJuridica pessoaJuridica = pessoaJuridicaRepository.findById(pessoaJuridicaId)
 				.orElseThrow(() -> new ResourceNotFoundException("Não existe empresa com ID: " + pessoaJuridicaId));
 
