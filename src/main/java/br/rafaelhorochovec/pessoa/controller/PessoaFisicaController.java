@@ -1,82 +1,47 @@
 package br.rafaelhorochovec.pessoa.controller;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
-
-import javax.validation.Valid;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-
-import br.rafaelhorochovec.pessoa.exception.ResourceNotFoundException;
-import br.rafaelhorochovec.pessoa.model.Contato;
 import br.rafaelhorochovec.pessoa.model.PessoaFisica;
-import br.rafaelhorochovec.pessoa.repository.PessoaFisicaRepository;
+import br.rafaelhorochovec.pessoa.service.PessoaFisicaService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/api")
 public class PessoaFisicaController {
-	
+
 	@Autowired
-	private PessoaFisicaRepository pessoaFisicaRepository;
+	PessoaFisicaService pessoaFisicaService;
 
-	@GetMapping("/pessoas")
-	public Page<PessoaFisica> read(Pageable pageable) {
-		return pessoaFisicaRepository.findAll(pageable);
-	}
-
-	@GetMapping("/pessoas/{id}")
-	public ResponseEntity<PessoaFisica> getById(@PathVariable(value = "id") UUID pessoaFisicaId)
-			throws ResourceNotFoundException {
-		PessoaFisica pessoaFisica = pessoaFisicaRepository.findById(pessoaFisicaId)
-				.orElseThrow(() -> new ResourceNotFoundException("Não existe pessoa com ID: " + pessoaFisicaId));
-		return ResponseEntity.ok().body(pessoaFisica);
-	}
-
+	// POST
 	@PostMapping("/pessoas")
-	public PessoaFisica create(@Valid @RequestBody PessoaFisica pessoaFisica) {
-		return pessoaFisicaRepository.save(pessoaFisica);
+	public PessoaFisica createPessoaFisica(@RequestBody PessoaFisica pessoaFisica) {
+		return pessoaFisicaService.createPessoaFisica(pessoaFisica);
 	}
 
+	// GET
+	@GetMapping("/pessoas")
+	public List<PessoaFisica> listPessoasFisicas() {
+		return pessoaFisicaService.getPessoasFisicas();
+	}
+
+	// PUT
 	@PutMapping("/pessoas/{id}")
-	public ResponseEntity<PessoaFisica> update(@PathVariable(value = "id") UUID pessoaFisicaId,
-			@Valid @RequestBody PessoaFisica pessoaFisicaRequest) throws ResourceNotFoundException {
-		PessoaFisica pessoaFisica = pessoaFisicaRepository.findById(pessoaFisicaId)
-				.orElseThrow(() -> new ResourceNotFoundException("Não existe pessoa com ID: " + pessoaFisicaId));
-		pessoaFisica.setNome(pessoaFisicaRequest.getNome());
-		pessoaFisica.setCpf(pessoaFisicaRequest.getCpf());
-		pessoaFisica.setIdade(pessoaFisicaRequest.getIdade());
-		
-		Contato contato = new Contato();
-		contato.setId(pessoaFisica.getContato().getId());
-		contato.setEmail(pessoaFisicaRequest.getContato().getEmail());
-		contato.setTelefoneFixo(pessoaFisicaRequest.getContato().getTelefoneFixo());
-		contato.setTelefoneCelular(pessoaFisicaRequest.getContato().getTelefoneCelular());
-		
-		pessoaFisica.setContato(contato);
-		final PessoaFisica updatedPessoaFisica = pessoaFisicaRepository.save(pessoaFisica);
-		return ResponseEntity.ok(updatedPessoaFisica);
+	public PessoaFisica updatePessoaFisica(@PathVariable(value = "id") UUID id, @RequestBody PessoaFisica pessoaFisicaDetails) {
+		return pessoaFisicaService.updatePessoaFisica(id, pessoaFisicaDetails);
 	}
 
-	@DeleteMapping("/pessoas/{id}")
-	public Map<String, Boolean> delete(@PathVariable(value = "id") UUID pessoaFisicaId) throws ResourceNotFoundException {
-		PessoaFisica pessoaFisica = pessoaFisicaRepository.findById(pessoaFisicaId)
-				.orElseThrow(() -> new ResourceNotFoundException("Não existe pessoa com ID: " + pessoaFisicaId));
+	// GET BY ID
+	@GetMapping("/pessoas/{id}")
+	public PessoaFisica getPessoaFisica(@PathVariable(value = "id") UUID id) {
+		return pessoaFisicaService.getById(id);
+	}
 
-		pessoaFisicaRepository.delete(pessoaFisica);
-		Map<String, Boolean> response = new HashMap<>();
-		response.put("deleted", Boolean.TRUE);
-		return response;
+	// DELETE
+	@DeleteMapping("/pessoas/{id}")
+	public void deletePessoaFisica(@PathVariable(value = "id") UUID id) {
+		pessoaFisicaService.deletePessoaFisica(id);
 	}
 }
