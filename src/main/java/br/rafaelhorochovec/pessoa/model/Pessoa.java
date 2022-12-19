@@ -14,10 +14,16 @@ import javax.persistence.OneToOne;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Type;
 
 @Entity
+@Getter
+@Setter
+@NoArgsConstructor
 @Inheritance(strategy = InheritanceType.JOINED)
 public class Pessoa extends Auditoria {
 
@@ -39,28 +45,4 @@ public class Pessoa extends Auditoria {
 
 	@OneToOne(cascade = CascadeType.ALL)
 	private Contato contato;
-
-	public UUID getId() {
-		return id;
-	}
-
-	public void setId(UUID id) {
-		this.id = id;
-	}
-
-	public String getNome() {
-		return nome;
-	}
-
-	public void setNome(String nome) {
-		this.nome = nome;
-	}
-
-	public Contato getContato() {
-		return contato;
-	}
-
-	public void setContato(Contato contato) {
-		this.contato = contato;
-	}
 }
